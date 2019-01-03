@@ -134,13 +134,13 @@ public class Weapon{
 			case DIAMOND:
 				return Material.DIAMOND_AXE;
 			case GOLD:
-				return Material.GOLD_AXE;
+				return Material.GOLDEN_AXE;
 			case IRON:
 				return Material.IRON_AXE;
 			case STONE:
 				return Material.STONE_AXE;
 			case WOOD:
-				return Material.WOOD_AXE;
+				return Material.WOODEN_AXE;
 			default:
 				return Material.AIR;
 			}
@@ -149,13 +149,13 @@ public class Weapon{
 			case DIAMOND:
 				return Material.DIAMOND_SWORD;
 			case GOLD:
-				return Material.GOLD_SWORD;
+				return Material.GOLDEN_SWORD;
 			case IRON:
 				return Material.IRON_SWORD;
 			case STONE:
 				return Material.STONE_SWORD;
 			case WOOD:
-				return Material.WOOD_SWORD;
+				return Material.WOODEN_SWORD;
 			default:
 				return Material.AIR;
 			}

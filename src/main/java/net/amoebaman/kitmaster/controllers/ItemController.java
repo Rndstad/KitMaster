@@ -12,8 +12,6 @@ import net.amoebaman.kitmaster.objects.Armor;
 import net.amoebaman.kitmaster.objects.Enchant;
 import net.amoebaman.kitmaster.objects.Weapon;
 import net.amoebaman.kitmaster.utilities.ParseItemException;
-import net.milkbowl.vault.item.ItemInfo;
-import net.milkbowl.vault.item.Items;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -129,21 +127,29 @@ public class ItemController {
 		name = name.toLowerCase();
 		Material type = null;
 		if(type == null){
-			try{ type = Material.getMaterial(Integer.decode(name)); }
+			try{ type = Material.getMaterial(name); }
 			catch(NumberFormatException e){}
 		}
 		if(type == null)
 			type = Material.matchMaterial(name);
 		if((name.toLowerCase().contains("spawn") || name.toLowerCase().contains("mob")) && name.toLowerCase().contains("egg"))
-			type = Material.MONSTER_EGG;
+			type = Material.LEGACY_MONSTER_EGG;
 		if(name.toLowerCase().contains("skull"))
-			type = Material.SKULL_ITEM;
+			type = Material.LEGACY_SKULL_ITEM;
 		if(name.toLowerCase().contains("dye"))
-			type = Material.INK_SACK;
-		if(type == null && KitMaster.isVaultEnabled() && !name.toLowerCase().contains("legg")){
-			ItemInfo item = Items.itemByName(name);
-			if(item != null)
-				type = item.getType();
+			type = Material.LEGACY_INK_SACK;
+		if(type == null && KitMaster.isVaultEnabled() && !name.toLowerCase().contains("legg")) {
+			if(name.contains("DIAMOND")) {
+				type = Material.DIAMOND_LEGGINGS;
+			} else if (name.contains("GOLD")) {
+				type = Material.GOLDEN_LEGGINGS;
+			} else if (name.contains("IRON")) {
+				type = Material.IRON_LEGGINGS;
+			} else if (name.contains("LEATHER")) {
+				type = Material.LEATHER_LEGGINGS;
+			} else {
+				type = null;
+			}
 		}
 		if(type == null)
 			throw new ParseItemException("unable to find matching material", name);
@@ -162,14 +168,14 @@ public class ItemController {
 			try{
 				switch(stack.getType()){
 
-				case MONSTER_EGG:
-				case MOB_SPAWNER:
+				case LEGACY_MONSTER_EGG:
+				case LEGACY_MOB_SPAWNER:
 					EntityType entity = EntityType.fromName(tag);
 					if(entity != null && entity.isSpawnable() && entity.isAlive())
 						stack.setDurability(entity.getTypeId());
 					break;
 				case WRITTEN_BOOK:
-				case BOOK_AND_QUILL:
+				case LEGACY_BOOK_AND_QUILL:
 						stack = BookHandler.loadBook(stack, tag);
 					break;
 				case LEATHER_HELMET:
@@ -182,13 +188,13 @@ public class ItemController {
 						stack.setItemMeta(leatherMeta);
 					}
 					break;
-				case SKULL_ITEM:
+				case LEGACY_SKULL_ITEM:
 					SkullMeta skullMeta = (SkullMeta) stack.getItemMeta();
 					skullMeta.setOwner(tag);
 					stack.setItemMeta(skullMeta);
 					stack.setDurability((short) 3);
 					break;
-				case SKULL:
+				case LEGACY_SKULL:
 					if(tag.toLowerCase().toLowerCase().contains("skeleton"))
 						stack.setDurability((short) 0);
 					if(tag.toLowerCase().toLowerCase().contains("wither"))
@@ -200,12 +206,12 @@ public class ItemController {
 					if(tag.toLowerCase().toLowerCase().contains("creeper"))
 						stack.setDurability((short) 4);
 					break;
-				case FIREWORK_CHARGE:
+				case LEGACY_FIREWORK_CHARGE:
 					FireworkEffectMeta fireworkMeta = (FireworkEffectMeta) stack.getItemMeta();
 					fireworkMeta.setEffect(FireworkEffectHandler.getFirework(tag));
 					stack.setItemMeta(fireworkMeta);
 					break;
-				case FIREWORK:
+				case LEGACY_FIREWORK:
 					stack = FireworkHandler.loadFirework(stack, tag);
 					break;
 				case POTION:
@@ -214,12 +220,12 @@ public class ItemController {
 					else
 						stack.setDurability(parsePotionData(tag));
 					break;
-				case LOG:
-				case LEAVES:
-				case WOOD:
-				case WOOD_STEP:
-				case WOOD_DOUBLE_STEP:
-				case WOOD_STAIRS:
+				case LEGACY_LOG:
+				case LEGACY_LEAVES:
+				case LEGACY_WOOD:
+				case LEGACY_WOOD_STEP:
+				case LEGACY_WOOD_DOUBLE_STEP:
+				case LEGACY_WOOD_STAIRS:
 					if(tag.equalsIgnoreCase("oak") || tag.equalsIgnoreCase("normal"))
 						stack.setDurability((short) 0);
 					if(tag.equalsIgnoreCase("spruce") || tag.equalsIgnoreCase("pine") || tag.equalsIgnoreCase("dark"))
@@ -229,15 +235,15 @@ public class ItemController {
 					if(tag.equalsIgnoreCase("jungle") || tag.equalsIgnoreCase("red"))
 						stack.setDurability((short) 3);
 					break;
-				case WOOL:
+				case LEGACY_WOOL:
 					if(!isInt(tag) && DyeColor.valueOf(tag.toUpperCase()) != null)
 						stack.setDurability(DyeColor.valueOf(tag.toUpperCase()).getWoolData());
 					break;
-				case INK_SACK:
+				case LEGACY_INK_SACK:
 					if(!isInt(tag) && DyeColor.valueOf(tag.toUpperCase()) != null)
 						stack.setDurability(DyeColor.valueOf(tag.toUpperCase()).getDyeData());
 					break;
-				case STEP:
+				case LEGACY_STEP:
 					if(tag.equalsIgnoreCase("stone"))
 						stack.setDurability((short) 0);
 					if(tag.toLowerCase().contains("sandstone"))
@@ -257,7 +263,7 @@ public class ItemController {
 					if(tag.toLowerCase().contains("smooth") || tag.toLowerCase().contains("brick"))
 						stack.setDurability((short) 2);
 					break;
-				case MONSTER_EGGS:
+				case LEGACY_MONSTER_EGGS:
 					if(tag.equalsIgnoreCase("stone") || tag.toLowerCase().contains("smooth"))
 						stack.setDurability((short) 0);
 					if(tag.toLowerCase().contains("brick"))
@@ -265,7 +271,7 @@ public class ItemController {
 					if(tag.toLowerCase().contains("cobble"))
 						stack.setDurability((short) 2);
 					break;
-				case SMOOTH_BRICK:
+				case LEGACY_SMOOTH_BRICK:
 					if(tag.toLowerCase().contains("mossy"))
 						stack.setDurability((short) 1);
 					if(tag.toLowerCase().contains("cracked") || tag.toLowerCase().contains("broken"))
@@ -299,11 +305,11 @@ public class ItemController {
 	public static String getTag(ItemStack stack, boolean create){
 		String name = null;
 		switch(stack.getType()){
-		case MONSTER_EGG:
-		case MOB_SPAWNER:
+		case LEGACY_MONSTER_EGG:
+		case LEGACY_MOB_SPAWNER:
 			return EntityType.fromId(stack.getDurability()).name().toLowerCase();
 		case WRITTEN_BOOK:
-		case BOOK_AND_QUILL:
+		case LEGACY_BOOK_AND_QUILL:
 			name = BookHandler.getBookName(stack);
 			if(name != null)
 				return name;
@@ -318,9 +324,9 @@ public class ItemController {
 		case LEATHER_LEGGINGS:
 		case LEATHER_BOOTS:
 			return "0x" + Integer.toHexString(((LeatherArmorMeta) stack.getItemMeta()).getColor().asRGB()).toUpperCase();
-		case SKULL_ITEM:
+		case LEGACY_SKULL_ITEM:
 			return ((SkullMeta) stack.getItemMeta()).getOwner();
-		case FIREWORK_CHARGE:
+		case LEGACY_FIREWORK_CHARGE:
 			name = FireworkEffectHandler.getEffectName(((FireworkEffectMeta) stack.getItemMeta()).getEffect());
 			if(name != null)
 				return name;
@@ -330,7 +336,7 @@ public class ItemController {
 				return name;
 			}
 			break;
-		case FIREWORK:
+		case LEGACY_FIREWORK:
 			name = FireworkHandler.getFireworkName(stack);
 			if(name != null)
 				return name;
@@ -350,23 +356,23 @@ public class ItemController {
 				return stack.getDurability() + ":" + name;
 			}
 			break;
-		case LOG:
-		case LEAVES:
-		case WOOD:
-		case WOOD_STEP:
-		case WOOD_DOUBLE_STEP:
-		case WOOD_STAIRS:
+		case LEGACY_LOG:
+		case LEGACY_LEAVES:
+		case LEGACY_WOOD:
+		case LEGACY_WOOD_STEP:
+		case LEGACY_WOOD_DOUBLE_STEP:
+		case LEGACY_WOOD_STAIRS:
 			switch(stack.getDurability()){
 			case 0: return "oak";
 			case 1: return "spruce";
 			case 2: return "birch";
 			case 3: return "jungle";
 			}
-		case WOOL:
+		case LEGACY_WOOL:
 			return DyeColor.getByWoolData((byte) stack.getDurability()).name().toLowerCase();
-		case INK_SACK:
+		case LEGACY_INK_SACK:
 			return DyeColor.getByDyeData((byte) stack.getDurability()).name().toLowerCase();
-		case STEP:
+		case LEGACY_STEP:
 			switch(stack.getDurability()){
 			case 0: return "stone";
 			case 1: return "sandstone";
@@ -382,13 +388,13 @@ public class ItemController {
 			case 1: return "chiseled";
 			case 2: return "smooth";
 			}
-		case MONSTER_EGGS:
+		case LEGACY_MONSTER_EGGS:
 			switch(stack.getDurability()){
 			case 0: return "stone";
 			case 1: return "stone_brick";
 			case 2: return "cobblestone";
 			}
-		case SMOOTH_BRICK:
+		case LEGACY_SMOOTH_BRICK:
 			switch(stack.getDurability()){
 			case 0: return null;
 			case 1: return "mossy";

@@ -29,7 +29,7 @@ public class FireworkHandler {
 	}
 	
 	public static void saveFirework(ItemStack firework, String name){
-		if(firework.getType() != Material.FIREWORK)
+		if(firework.getType() != Material.LEGACY_FIREWORK)
 			return;
 		FireworkMeta meta = (FireworkMeta) firework.getItemMeta();
 		ConfigurationSection fireworkYaml = yaml.createSection(name);
@@ -50,7 +50,7 @@ public class FireworkHandler {
 	}
 	
 	public static ItemStack loadFirework(ItemStack firework, String name){
-		if(firework.getType() != Material.FIREWORK)
+		if(firework.getType() != Material.LEGACY_FIREWORK)
 			return firework;
 		ConfigurationSection fireworkYaml = getSection(name);
 		if(fireworkYaml == null)
@@ -66,7 +66,7 @@ public class FireworkHandler {
 	}
 	
 	public static ItemStack getFirework(String name){
-		return loadFirework(new ItemStack(Material.FIREWORK), name);
+		return loadFirework(new ItemStack(Material.LEGACY_FIREWORK), name);
 	}
 	
 	public static String getFireworkName(ItemStack firework){

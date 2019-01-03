@@ -169,10 +169,10 @@ public class Armor {
 			}
 		case GOLD:
 			switch(type){
-			case HELMET: return Material.GOLD_HELMET;
-			case CHESTPLATE: return Material.GOLD_CHESTPLATE;
-			case LEGGINGS: return Material.GOLD_LEGGINGS;
-			case BOOTS: return Material.GOLD_BOOTS;
+			case HELMET: return Material.GOLDEN_HELMET;
+			case CHESTPLATE: return Material.GOLDEN_HELMET;
+			case LEGGINGS: return Material.GOLDEN_LEGGINGS;
+			case BOOTS: return Material.GOLDEN_BOOTS;
 			default: return Material.AIR;
 			}
 		case IRON:
@@ -191,8 +191,8 @@ public class Armor {
 			case BOOTS: return Material.LEATHER_BOOTS;
 			default: return Material.AIR;
 			}
-		case SKULL: return Material.SKULL;
-		case WOOL: return Material.WOOL;
+		case SKULL: return Material.LEGACY_SKULL;
+		case WOOL: return Material.LEGACY_WOOL;
 		default: return Material.AIR;
 		}
 	}

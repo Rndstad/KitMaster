@@ -31,7 +31,7 @@ import net.milkbowl.vault.permission.Permission;
 
 //TODO Javadoc for EVERYTHING
 
-public class KitMaster extends JavaPlugin implements Listener{
+public class KitMaster extends JavaPlugin implements Listener {
 	
 	private static int TASK_ID;
 	
@@ -103,7 +103,7 @@ public class KitMaster extends JavaPlugin implements Listener{
 	}
 	
 	@Override
-	public void onDisable(){
+	public void onDisable() {
 		Bukkit.getScheduler().cancelTask(TASK_ID);
 		if(getConfig().getBoolean("clearKits.onDisable", true))
 			for(OfflinePlayer player : HistoryHandler.getPlayers())

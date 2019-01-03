@@ -145,7 +145,7 @@ public class KitMasterCommandHandler implements TabCompleter{
 
 	@CommandHandler(cmd = "itemmeta savebook", permissions = "kitmaster.meta", permissionMessage = "You don't have permission to manage item metadata")
 	public void savebook(Player player, String[] args){
-		if(player.getItemInHand().getType() != Material.WRITTEN_BOOK && player.getItemInHand().getType() != Material.BOOK_AND_QUILL){
+		if(player.getItemInHand().getType() != Material.WRITTEN_BOOK && player.getItemInHand().getType() != Material.LEGACY_BOOK_AND_QUILL){
 			player.sendMessage(MessageHandler.getPrefix() + "You need to hold a written book before using this command");
 			return;
 		}
@@ -200,7 +200,7 @@ public class KitMasterCommandHandler implements TabCompleter{
 	
 	@CommandHandler(cmd = "itemmeta savefirework", permissions = "kitmaster.meta", permissionMessage = "You don't have permission to manage item metadata")
 	public void savefirework(Player player, String[] args){
-		if(player.getItemInHand().getType() != Material.FIREWORK){
+		if(player.getItemInHand().getType() != Material.LEGACY_FIREWORK){
 			player.sendMessage(MessageHandler.getPrefix() + "You need to hold a firework before using this command");
 			return;
 		}
@@ -341,7 +341,7 @@ public class KitMasterCommandHandler implements TabCompleter{
 			player.sendMessage(MessageHandler.getPrefix() + "Include the name of the player whose skull you want");
 			return;
 		}
-		ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+		ItemStack skull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) 3);
 		SkullMeta meta = (SkullMeta) skull.getItemMeta();
 		meta.setOwner(args[0]);
 		skull.setItemMeta(meta);
