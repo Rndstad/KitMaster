@@ -42,13 +42,6 @@
         </dependency>
     </dependencies>
 
-		<distributionManagement>
-				<repository>
-						<id>amoeba-repo</id>
-						<url>http://localhost:8081/nexus/content/repositories/amoeba-repo/</url>
-				</repository>
-		</distributionManagement>
-
 		<build>
 				<sourceDirectory>src/main/java</sourceDirectory>
 				<resources>
